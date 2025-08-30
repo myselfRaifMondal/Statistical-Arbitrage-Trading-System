@@ -69,7 +69,9 @@ class PairTradingConfig:
         ('HINDUNILVR.NS', 'ITC.NS'),
         ('BAJFINANCE.NS', 'HDFCLIFE.NS'),
         ('MARUTI.NS', 'M&M.NS'),
-        ('ASIANPAINT.NS', 'BERGER.NS')
+        ('ASIANPAINT.NS', 'BERGER.NS'),
+        ('HDFCBANK.NS', 'ICICIBANK.NS'),
+        ('KOTAKBANK.NS', 'AXISBANK.NS'),
     ]
 
     # Correlation threshold
