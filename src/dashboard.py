@@ -3,13 +3,14 @@ Statistical Arbitrage Dashboard - Tkinter GUI Application
 Main interface for monitoring and controlling the trading system
 """
 
-import tkinter as tk
+from tkinter import *
+import tkinter
 from tkinter import ttk, messagebox, scrolledtext
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import numpy as np
 import threading
 import time
 from datetime import datetime
@@ -58,7 +59,7 @@ class StatisticalArbitrageDashboard:
         """Setup the main GUI components"""
         # Create main notebook for tabs
         self.notebook = ttk.Notebook(self.root)
-        self.notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.notebook.pack(fill=BOTH, expand=True, padx=10, pady=10)
 
         # Create tabs
         self.create_overview_tab()
@@ -68,14 +69,14 @@ class StatisticalArbitrageDashboard:
         self.create_settings_tab()
 
         # Status bar
-        self.status_frame = tk.Frame(self.root, relief=tk.SUNKEN, bd=1)
-        self.status_frame.pack(side=tk.BOTTOM, fill=tk.X)
-        self.status_label = tk.Label(self.status_frame, text="Initializing...", anchor=tk.W)
-        self.status_label.pack(side=tk.LEFT, padx=5)
+        self.status_frame = Frame(self.root, relief=SUNKEN, bd=1)
+        self.status_frame.pack(side=BOTTOM, fill=X)
+        self.status_label = Label(self.status_frame, text="Initializing...", anchor=W)
+        self.status_label.pack(side=LEFT, padx=5)
 
         # Real-time clock
-        self.clock_label = tk.Label(self.status_frame, text="", anchor=tk.E)
-        self.clock_label.pack(side=tk.RIGHT, padx=5)
+        self.clock_label = Label(self.status_frame, text="", anchor=E)
+        self.clock_label.pack(side=RIGHT, padx=5)
         self.update_clock()
 
     def create_overview_tab(self):
@@ -85,21 +86,21 @@ class StatisticalArbitrageDashboard:
 
         # Main metrics frame
         metrics_frame = ttk.LabelFrame(self.overview_frame, text="Key Metrics", padding=10)
-        metrics_frame.pack(fill=tk.X, padx=10, pady=5)
+        metrics_frame.pack(fill=X, padx=10, pady=5)
 
         # Create metrics display
         self.metrics_vars = {
-            'total_pairs': tk.StringVar(value="0"),
-            'active_pairs': tk.StringVar(value="0"),
-            'total_signals': tk.StringVar(value="0"),
-            'profit_loss': tk.StringVar(value="₹0.00"),
-            'win_rate': tk.StringVar(value="0%"),
-            'last_update': tk.StringVar(value="Never")
+            'total_pairs': StringVar(value="0"),
+            'active_pairs': StringVar(value="0"),
+            'total_signals': StringVar(value="0"),
+            'profit_loss': StringVar(value="₹0.00"),
+            'win_rate': StringVar(value="0%"),
+            'last_update': StringVar(value="Never")
         }
 
         # Metrics grid
         metrics_grid = ttk.Frame(metrics_frame)
-        metrics_grid.pack(fill=tk.X)
+        metrics_grid.pack(fill=X)
 
         row = 0
         for i, (key, var) in enumerate(self.metrics_vars.items()):
@@ -115,7 +116,7 @@ class StatisticalArbitrageDashboard:
 
         # Control buttons
         control_frame = ttk.LabelFrame(self.overview_frame, text="Controls", padding=10)
-        control_frame.pack(fill=tk.X, padx=10, pady=5)
+        control_frame.pack(fill=X, padx=10, pady=5)
 
         button_frame = ttk.Frame(control_frame)
         button_frame.pack()
@@ -123,24 +124,24 @@ class StatisticalArbitrageDashboard:
         self.screen_button = ttk.Button(button_frame, text="Screen Pairs", 
                                        command=self.screen_pairs_threaded,
                                        style='Accent.TButton')
-        self.screen_button.pack(side=tk.LEFT, padx=5)
+        self.screen_button.pack(side=LEFT, padx=5)
 
         self.monitor_button = ttk.Button(button_frame, text="Start Monitoring",
                                         command=self.toggle_monitoring)
-        self.monitor_button.pack(side=tk.LEFT, padx=5)
+        self.monitor_button.pack(side=LEFT, padx=5)
 
         ttk.Button(button_frame, text="Refresh Data", 
-                  command=self.refresh_data).pack(side=tk.LEFT, padx=5)
+                  command=self.refresh_data).pack(side=LEFT, padx=5)
 
         ttk.Button(button_frame, text="Export Data", 
-                  command=self.export_data).pack(side=tk.LEFT, padx=5)
+                  command=self.export_data).pack(side=LEFT, padx=5)
 
         # Market overview chart placeholder
         chart_frame = ttk.LabelFrame(self.overview_frame, text="Market Overview", padding=10)
-        chart_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+        chart_frame.pack(fill=BOTH, expand=True, padx=10, pady=5)
 
         self.overview_chart_frame = ttk.Frame(chart_frame)
-        self.overview_chart_frame.pack(fill=tk.BOTH, expand=True)
+        self.overview_chart_frame.pack(fill=BOTH, expand=True)
 
     def create_pairs_tab(self):
         """Create pairs analysis tab"""
@@ -149,7 +150,7 @@ class StatisticalArbitrageDashboard:
 
         # Pairs list frame
         list_frame = ttk.LabelFrame(self.pairs_frame, text="Viable Pairs", padding=10)
-        list_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(10, 5), pady=10)
+        list_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=(10, 5), pady=10)
 
         # Pairs treeview
         columns = ('Pair', 'P-Value', 'Correlation', 'Z-Score', 'Signal', 'Status')
@@ -164,32 +165,32 @@ class StatisticalArbitrageDashboard:
             self.pairs_tree.column(col, width=column_widths.get(col, 100))
 
         # Scrollbars for treeview
-        pairs_scroll_y = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.pairs_tree.yview)
-        pairs_scroll_x = ttk.Scrollbar(list_frame, orient=tk.HORIZONTAL, command=self.pairs_tree.xview)
+        pairs_scroll_y = ttk.Scrollbar(list_frame, orient=VERTICAL, command=self.pairs_tree.yview)
+        pairs_scroll_x = ttk.Scrollbar(list_frame, orient=HORIZONTAL, command=self.pairs_tree.xview)
         self.pairs_tree.configure(yscrollcommand=pairs_scroll_y.set, xscrollcommand=pairs_scroll_x.set)
 
-        self.pairs_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        pairs_scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
-        pairs_scroll_x.pack(side=tk.BOTTOM, fill=tk.X)
+        self.pairs_tree.pack(side=LEFT, fill=BOTH, expand=True)
+        pairs_scroll_y.pack(side=RIGHT, fill=Y)
+        pairs_scroll_x.pack(side=BOTTOM, fill=X)
 
         # Bind selection event
         self.pairs_tree.bind('<<TreeviewSelect>>', self.on_pair_select)
 
         # Pair details frame
         details_frame = ttk.LabelFrame(self.pairs_frame, text="Pair Details", padding=10)
-        details_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(5, 10), pady=10)
+        details_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=(5, 10), pady=10)
 
         # Pair info
         info_frame = ttk.Frame(details_frame)
-        info_frame.pack(fill=tk.X, pady=(0, 10))
+        info_frame.pack(fill=X, pady=(0, 10))
 
         self.pair_info_vars = {
-            'selected_pair': tk.StringVar(value="No pair selected"),
-            'cointegration_p': tk.StringVar(value="--"),
-            'hedge_ratio': tk.StringVar(value="--"),
-            'correlation': tk.StringVar(value="--"),
-            'current_zscore': tk.StringVar(value="--"),
-            'signal_strength': tk.StringVar(value="--")
+            'selected_pair': StringVar(value="No pair selected"),
+            'cointegration_p': StringVar(value="--"),
+            'hedge_ratio': StringVar(value="--"),
+            'correlation': StringVar(value="--"),
+            'current_zscore': StringVar(value="--"),
+            'signal_strength': StringVar(value="--")
         }
 
         for i, (key, var) in enumerate(self.pair_info_vars.items()):
@@ -201,7 +202,7 @@ class StatisticalArbitrageDashboard:
 
         # Chart placeholder
         self.pair_chart_frame = ttk.Frame(details_frame)
-        self.pair_chart_frame.pack(fill=tk.BOTH, expand=True)
+        self.pair_chart_frame.pack(fill=BOTH, expand=True)
 
     def create_signals_tab(self):
         """Create trading signals tab"""
@@ -210,7 +211,7 @@ class StatisticalArbitrageDashboard:
 
         # Current signals frame
         current_frame = ttk.LabelFrame(self.signals_frame, text="Current Signals", padding=10)
-        current_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
+        current_frame.pack(fill=X, padx=10, pady=(10, 5))
 
         # Signals treeview
         signal_columns = ('Time', 'Pair', 'Signal', 'Z-Score', 'Action', 'Confidence')
@@ -221,27 +222,27 @@ class StatisticalArbitrageDashboard:
             self.signals_tree.heading(col, text=col)
             self.signals_tree.column(col, width=100)
 
-        signals_scroll = ttk.Scrollbar(current_frame, orient=tk.VERTICAL, 
+        signals_scroll = ttk.Scrollbar(current_frame, orient=VERTICAL, 
                                      command=self.signals_tree.yview)
         self.signals_tree.configure(yscrollcommand=signals_scroll.set)
 
-        self.signals_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        signals_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.signals_tree.pack(side=LEFT, fill=BOTH, expand=True)
+        signals_scroll.pack(side=RIGHT, fill=Y)
 
         # Signal details and actions
         actions_frame = ttk.LabelFrame(self.signals_frame, text="Signal Actions", padding=10)
-        actions_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+        actions_frame.pack(fill=BOTH, expand=True, padx=10, pady=5)
 
         # Action buttons
         btn_frame = ttk.Frame(actions_frame)
-        btn_frame.pack(fill=tk.X, pady=(0, 10))
+        btn_frame.pack(fill=X, pady=(0, 10))
 
         ttk.Button(btn_frame, text="Execute Signal", 
-                  command=self.execute_signal).pack(side=tk.LEFT, padx=5)
+                  command=self.execute_signal).pack(side=LEFT, padx=5)
         ttk.Button(btn_frame, text="Paper Trade", 
-                  command=self.paper_trade).pack(side=tk.LEFT, padx=5)
+                  command=self.paper_trade).pack(side=LEFT, padx=5)
         ttk.Button(btn_frame, text="Calculate Position", 
-                  command=self.calculate_position).pack(side=tk.LEFT, padx=5)
+                  command=self.calculate_position).pack(side=LEFT, padx=5)
 
         # Signal log
         log_label = ttk.Label(actions_frame, text="Signal Log:", font=('Arial', 10, 'bold'))
@@ -249,7 +250,7 @@ class StatisticalArbitrageDashboard:
 
         self.signal_log = scrolledtext.ScrolledText(actions_frame, height=10, 
                                                    font=('Consolas', 9))
-        self.signal_log.pack(fill=tk.BOTH, expand=True, pady=(5, 0))
+        self.signal_log.pack(fill=BOTH, expand=True, pady=(5, 0))
 
     def create_trades_tab(self):
         """Create trades management tab"""
@@ -258,7 +259,7 @@ class StatisticalArbitrageDashboard:
 
         # Position summary
         position_frame = ttk.LabelFrame(self.trades_frame, text="Current Positions", padding=10)
-        position_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
+        position_frame.pack(fill=X, padx=10, pady=(10, 5))
 
         # Positions treeview
         pos_columns = ('Pair', 'Direction', 'Entry Time', 'Entry Price', 'Current PnL', 
@@ -270,31 +271,31 @@ class StatisticalArbitrageDashboard:
             self.positions_tree.heading(col, text=col)
             self.positions_tree.column(col, width=100)
 
-        pos_scroll = ttk.Scrollbar(position_frame, orient=tk.VERTICAL, 
+        pos_scroll = ttk.Scrollbar(position_frame, orient=VERTICAL, 
                                  command=self.positions_tree.yview)
         self.positions_tree.configure(yscrollcommand=pos_scroll.set)
 
-        self.positions_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        pos_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.positions_tree.pack(side=LEFT, fill=BOTH, expand=True)
+        pos_scroll.pack(side=RIGHT, fill=Y)
 
         # Trade history
         history_frame = ttk.LabelFrame(self.trades_frame, text="Trade History", padding=10)
-        history_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+        history_frame.pack(fill=BOTH, expand=True, padx=10, pady=5)
 
         # History controls
         hist_controls = ttk.Frame(history_frame)
-        hist_controls.pack(fill=tk.X, pady=(0, 10))
+        hist_controls.pack(fill=X, pady=(0, 10))
 
-        ttk.Label(hist_controls, text="Filter:").pack(side=tk.LEFT)
+        ttk.Label(hist_controls, text="Filter:").pack(side=LEFT)
         self.history_filter = ttk.Combobox(hist_controls, values=['All', 'Today', 'This Week', 
                                                                  'This Month'], state='readonly')
         self.history_filter.set('Today')
-        self.history_filter.pack(side=tk.LEFT, padx=5)
+        self.history_filter.pack(side=LEFT, padx=5)
 
         ttk.Button(hist_controls, text="Refresh", 
-                  command=self.refresh_trade_history).pack(side=tk.LEFT, padx=5)
+                  command=self.refresh_trade_history).pack(side=LEFT, padx=5)
         ttk.Button(hist_controls, text="Export", 
-                  command=self.export_trades).pack(side=tk.LEFT, padx=5)
+                  command=self.export_trades).pack(side=LEFT, padx=5)
 
         # History treeview
         hist_columns = ('Time', 'Pair', 'Type', 'Quantity', 'Price', 'Fees', 'PnL', 'Status')
@@ -305,12 +306,12 @@ class StatisticalArbitrageDashboard:
             self.history_tree.heading(col, text=col)
             self.history_tree.column(col, width=90)
 
-        hist_scroll = ttk.Scrollbar(history_frame, orient=tk.VERTICAL, 
+        hist_scroll = ttk.Scrollbar(history_frame, orient=VERTICAL, 
                                   command=self.history_tree.yview)
         self.history_tree.configure(yscrollcommand=hist_scroll.set)
 
-        self.history_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        hist_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.history_tree.pack(side=LEFT, fill=BOTH, expand=True)
+        hist_scroll.pack(side=RIGHT, fill=Y)
 
         # Load some sample data
         self.load_sample_trade_data()
@@ -322,19 +323,19 @@ class StatisticalArbitrageDashboard:
 
         # Trading parameters
         trading_frame = ttk.LabelFrame(self.settings_frame, text="Trading Parameters", padding=10)
-        trading_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
+        trading_frame.pack(fill=X, padx=10, pady=(10, 5))
 
         # Parameters grid
         params_frame = ttk.Frame(trading_frame)
-        params_frame.pack(fill=tk.X)
+        params_frame.pack(fill=X)
 
         self.settings_vars = {
-            'z_score_entry': tk.DoubleVar(value=self.trading_config.Z_SCORE_ENTRY),
-            'z_score_exit': tk.DoubleVar(value=self.trading_config.Z_SCORE_EXIT),
-            'stop_loss_multiplier': tk.DoubleVar(value=self.trading_config.STOP_LOSS_MULTIPLIER),
-            'min_profit_threshold': tk.DoubleVar(value=self.trading_config.MIN_PROFIT_THRESHOLD * 100),
-            'max_position_size': tk.DoubleVar(value=self.trading_config.MAX_POSITION_SIZE * 100),
-            'rolling_window': tk.IntVar(value=self.trading_config.ROLLING_WINDOW)
+            'z_score_entry': DoubleVar(value=self.trading_config.Z_SCORE_ENTRY),
+            'z_score_exit': DoubleVar(value=self.trading_config.Z_SCORE_EXIT),
+            'stop_loss_multiplier': DoubleVar(value=self.trading_config.STOP_LOSS_MULTIPLIER),
+            'min_profit_threshold': DoubleVar(value=self.trading_config.MIN_PROFIT_THRESHOLD * 100),
+            'max_position_size': DoubleVar(value=self.trading_config.MAX_POSITION_SIZE * 100),
+            'rolling_window': IntVar(value=self.trading_config.ROLLING_WINDOW)
         }
 
         row = 0
@@ -355,16 +356,16 @@ class StatisticalArbitrageDashboard:
 
         # Fee calculator
         fee_frame = ttk.LabelFrame(self.settings_frame, text="Fee Calculator", padding=10)
-        fee_frame.pack(fill=tk.X, padx=10, pady=5)
+        fee_frame.pack(fill=X, padx=10, pady=5)
 
         # Fee calculator inputs
         calc_frame = ttk.Frame(fee_frame)
-        calc_frame.pack(fill=tk.X)
+        calc_frame.pack(fill=X)
 
         self.fee_vars = {
-            'quantity': tk.IntVar(value=100),
-            'buy_price': tk.DoubleVar(value=1500.0),
-            'sell_price': tk.DoubleVar(value=1510.0)
+            'quantity': IntVar(value=100),
+            'buy_price': DoubleVar(value=1500.0),
+            'sell_price': DoubleVar(value=1510.0)
         }
 
         col = 0
@@ -381,16 +382,16 @@ class StatisticalArbitrageDashboard:
         # Fee results
         self.fee_result_text = scrolledtext.ScrolledText(fee_frame, height=8, 
                                                         font=('Consolas', 9))
-        self.fee_result_text.pack(fill=tk.X, pady=(10, 0))
+        self.fee_result_text.pack(fill=X, pady=(10, 0))
 
         # Logging controls
         log_frame = ttk.LabelFrame(self.settings_frame, text="Logging", padding=10)
-        log_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+        log_frame.pack(fill=BOTH, expand=True, padx=10, pady=5)
 
         # Log display
         self.log_display = scrolledtext.ScrolledText(log_frame, height=10, 
                                                     font=('Consolas', 9))
-        self.log_display.pack(fill=tk.BOTH, expand=True)
+        self.log_display.pack(fill=BOTH, expand=True)
 
     def setup_logging(self):
         """Setup logging display"""
@@ -401,8 +402,8 @@ class StatisticalArbitrageDashboard:
         try:
             while True:
                 message = self.log_queue.get_nowait()
-                self.log_display.insert(tk.END, f"{datetime.now().strftime('%H:%M:%S')} - {message}\n")
-                self.log_display.see(tk.END)
+                self.log_display.insert(END, f"{datetime.now().strftime('%H:%M:%S')} - {message}\n")
+                self.log_display.see(END)
         except queue.Empty:
             pass
 
@@ -534,7 +535,7 @@ class StatisticalArbitrageDashboard:
         # Embed chart in tkinter
         canvas = FigureCanvasTkAgg(fig, self.pair_chart_frame)
         canvas.draw()
-        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+        canvas.get_tk_widget().pack(fill=BOTH, expand=True)
 
     def toggle_monitoring(self):
         """Toggle real-time monitoring"""
@@ -624,10 +625,10 @@ class StatisticalArbitrageDashboard:
 
             # Log new signals
             for signal in new_signals:
-                self.signal_log.insert(tk.END, 
+                self.signal_log.insert(END, 
                     f"[{signal['time']}] {signal['pair']}: {signal['signal']} "
                     f"(Z={signal['z_score']}, Conf={signal['confidence']})\n")
-                self.signal_log.see(tk.END)
+                self.signal_log.see(END)
 
     def execute_signal(self):
         """Execute selected trading signal (placeholder)"""
@@ -681,7 +682,7 @@ class StatisticalArbitrageDashboard:
 
     def show_position_dialog(self, pair_data):
         """Show position calculation dialog"""
-        dialog = tk.Toplevel(self.root)
+        dialog = Toplevel(self.root)
         dialog.title(f"Position Calculator - {pair_data['pair']}")
         dialog.geometry("400x300")
         dialog.resizable(False, False)
@@ -701,17 +702,17 @@ Capital Allocation: ₹{self.pair_config.CAPITAL_PER_PAIR:,}
 Max Position Size: {self.trading_config.MAX_POSITION_SIZE*100:.1f}%
 """
 
-        info_label = tk.Label(dialog, text=info_text, justify=tk.LEFT, font=('Arial', 10))
+        info_label = Label(dialog, text=info_text, justify=LEFT, font=('Arial', 10))
         info_label.pack(pady=20, padx=20)
 
         # Buttons
-        btn_frame = tk.Frame(dialog)
+        btn_frame = Frame(dialog)
         btn_frame.pack(pady=20)
 
         ttk.Button(btn_frame, text="Calculate", 
-                  command=lambda: self.calculate_actual_position(pair_data, dialog)).pack(side=tk.LEFT, padx=10)
+                  command=lambda: self.calculate_actual_position(pair_data, dialog)).pack(side=LEFT, padx=10)
         ttk.Button(btn_frame, text="Close", 
-                  command=dialog.destroy).pack(side=tk.LEFT, padx=10)
+                  command=dialog.destroy).pack(side=LEFT, padx=10)
 
         # Center dialog on parent
         dialog.update_idletasks()
@@ -820,7 +821,7 @@ Max Position Size: {self.trading_config.MAX_POSITION_SIZE*100:.1f}%
             )
 
             # Display results
-            self.fee_result_text.delete(1.0, tk.END)
+            self.fee_result_text.delete(1.0, END)
 
             output = f"""Fee Calculation Results
 {'='*40}
@@ -864,7 +865,7 @@ Summary:
 
 def main():
     """Main function to run the application"""
-    root = tk.Tk()
+    root = tkinter.Tk()
 
     # Configure style
     style = ttk.Style()

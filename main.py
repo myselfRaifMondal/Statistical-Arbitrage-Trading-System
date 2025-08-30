@@ -6,7 +6,8 @@ Main application entry point
 
 import sys
 import os
-import tkinter as tk
+from tkinter import *
+import tkinter
 from tkinter import messagebox
 import logging
 
@@ -90,8 +91,8 @@ def main():
         # Import dashboard after dependency check
         from dashboard import StatisticalArbitrageDashboard
 
-        # Create main window
-        root = tk.Tk()
+        # Create main window using the consistent methodology
+        root = tkinter.Tk()
 
         # Handle window close event
         def on_closing():
