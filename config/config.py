@@ -62,20 +62,51 @@ class PairTradingConfig:
 
     # Stock pairs for analysis
     DEFAULT_PAIRS = [
-        ('RELIANCE.NS', 'ONGC.NS'),
-        ('HDFCBANK.NS', 'KOTAKBANK.NS'),
-        ('TCS.NS', 'INFY.NS'),
-        ('ICICIBANK.NS', 'SBIN.NS'),
-        ('HINDUNILVR.NS', 'ITC.NS'),
-        ('BAJFINANCE.NS', 'HDFCLIFE.NS'),
-        ('MARUTI.NS', 'M&M.NS'),
-        ('ASIANPAINT.NS', 'BERGER.NS'),
         ('HDFCBANK.NS', 'ICICIBANK.NS'),
         ('KOTAKBANK.NS', 'AXISBANK.NS'),
+        ('HDFCBANK.NS', 'KOTAKBANK.NS'),
+        ('ICICIBANK.NS', 'AXISBANK.NS'),
+        ('INDUSINDBK.NS', 'FEDERALBNK.NS'),
+        ('BANDHANBNK.NS', 'RBLBANK.NS'),
+        ('YESBANK.NS', 'IDFCFIRSTB.NS'),
+        ('SBIN.NS', 'PNB.NS'),
+        ('BANKBARODA.NS', 'CANFINHOME.NS'),
+        ('UNIONBANK.NS', 'INDIANB.NS'),
+        ('TCS.NS', 'INFY.NS'),
+        ('WIPRO.NS', 'HCLTECH.NS'),
+        ('TCS.NS', 'WIPRO.NS'),
+        ('INFY.NS', 'HCLTECH.NS'),
+        ('TECHM.NS', 'LTI.NS'),
+        ('MINDTREE.NS', 'MPHASIS.NS'),
+        ('COFORGE.NS', 'PERSISTENT.NS'),
+        ('SUNPHARMA.NS', 'DRREDDY.NS'),
+        ('CIPLA.NS', 'LUPIN.NS'),
+        ('AUROPHARMA.NS', 'GLENMARK.NS'),
+        ('BIOCON.NS', 'CADILAHC.NS'),
+        ('TORNTPHARM.NS', 'ALKEM.NS'),
+        ('HINDUNILVR.NS', 'ITC.NS'),
+        ('NESTLEIND.NS', 'BRITANNIA.NS'),
+        ('DABUR.NS', 'MARICO.NS'),
+        ('COLPAL.NS', 'GODREJCP.NS'),
+        ('TATACONSUM.NS', 'UBL.NS'),
+        ('MARUTI.NS', 'HYUNDAI.NS'),
+        ('M&M.NS', 'TVSMOTOR.NS'),
+        ('HEROMOTOCO.NS', 'BAJAJ-AUTO.NS'),
+        ('TVSMOTOR.NS', 'EICHERMOT.NS'),
+        ('BOSCHLTD.NS', 'MOTHERSUMI.NS'),
+        ('BALKRISIND.NS', 'MRF.NS'),
+        ('RELIANCE.NS', 'ONGC.NS'),
+        ('IOC.NS', 'BPCL.NS'),
+        ('HINDPETRO.NS', 'GAIL.NS'),
+        ('PETRONET.NS', 'IGL.NS'),
+        ('POWERGRID.NS', 'NTPC.NS'),
+        ('TATAPOWER.NS', 'ADANIPOWER.NS'),
+        ('JSW.NS', 'TORNTPOWER.NS'),
+        
     ]
 
     # Correlation threshold
-    MIN_CORRELATION = 0.7
+    MIN_CORRELATION = 0.1
 
     # Cointegration p-value threshold
     MAX_COINTEGRATION_PVALUE = 0.05
